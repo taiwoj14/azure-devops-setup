@@ -16,5 +16,12 @@ steps:
     displayName: 'Install dependencies'
 
   - script: |
-      python -m pytest -v
-    displayName: 'Run automated tests'
+      python -m pytest --cov=app --cov-report=term-missing --cov-report=xml:coverage.xml
+    displayName: 'Run tests and generate coverage'
+
+  - task: PublishCodeCoverageResults@2
+    displayName: 'Publish code coverage'
+    inputs:
+      summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage.xml'
+      pathToSources: '$(System.DefaultWorkingDirectory)'
+      failIfCoverageEmpty: true
