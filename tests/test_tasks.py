@@ -1,3 +1,4 @@
+import pytest
 
 from app.tasks import add_task, list_tasks, complete_task
 
@@ -28,3 +29,10 @@ def test_complete_task():
     complete_task(tasks, 0)
 
     assert tasks[0]["completed"] is True
+
+
+def test_complete_task_invalid_index():
+    tasks = [{"title": "Build a pipeline", "completed": False}]
+
+    with pytest.raises(IndexError, match="Task index is out of range"):
+        complete_task(tasks, 1)
