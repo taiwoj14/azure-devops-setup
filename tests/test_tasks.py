@@ -36,6 +36,3 @@ def test_complete_task_invalid_index():
 
     with pytest.raises(IndexError, match="Task index is out of range"):
         complete_task(tasks, 1)
-
-def test_ci_failure_demo():
-    assert 1 == 2
