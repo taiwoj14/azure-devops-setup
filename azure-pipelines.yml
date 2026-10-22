@@ -16,8 +16,17 @@ steps:
     displayName: 'Install dependencies'
 
   - script: |
-      python -m pytest --cov=app --cov-report=term-missing --cov-report=xml:coverage.xml
+      python -m pytest --cov=app --cov-report=term-missing --cov-report=xml:coverage.xml --junitxml=test-results.xml
     displayName: 'Run tests and generate coverage'
+
+  - task: PublishTestResults@2
+    displayName: 'Publish test results'
+    condition: succeededOrFailed()
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: 'test-results.xml'
+      testRunTitle: 'Python Unit Tests'
+      failTaskOnFailedTests: true
 
   - task: PublishCodeCoverageResults@2
     displayName: 'Publish code coverage'
