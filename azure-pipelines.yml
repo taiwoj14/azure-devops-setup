@@ -16,6 +16,9 @@ steps:
     displayName: 'Install dependencies'
 
   - script: |
+      python -m flake8 app/ tests/
+    displayName: 'Run Flake8 linting'
+  - script: |
       python -m pytest --cov=app --cov-report=term-missing --cov-report=xml:coverage.xml --junitxml=test-results.xml
     displayName: 'Run tests and generate coverage'
 
