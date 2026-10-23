@@ -34,3 +34,16 @@ steps:
       summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage.xml'
       pathToSources: '$(System.DefaultWorkingDirectory)'
       failIfCoverageEmpty: true
+
+  - script: |
+      mkdir -p "$(Build.ArtifactStagingDirectory)/test-reports"
+      cp "$(System.DefaultWorkingDirectory)/coverage.xml" "$(Build.ArtifactStagingDirectory)/test-reports/"
+      cp "$(System.DefaultWorkingDirectory)/test-results.xml" "$(Build.ArtifactStagingDirectory)/test-reports/"
+    displayName: 'Stage test and coverage reports'
+
+  - task: PublishPipelineArtifact@1
+    displayName: 'Publish test and coverage artifacts'
+    inputs:
+      targetPath: '$(Build.ArtifactStagingDirectory)/test-reports'
+      artifact: 'test-reports'
+      publishLocation: 'pipeline'
